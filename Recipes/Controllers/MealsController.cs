@@ -8,14 +8,14 @@ namespace Recipes.Controllers
         private readonly ApiMeals _apiMeals = new ApiMeals();
         public IActionResult Index()
         {
-            return View(_apiMeals.GetRandomMeals(new HttpClient(),20).Result);
+            return View(_apiMeals.GetRandomMeals(new(),20).Result);
         }
 
         public IActionResult MealRecipe(string id)
         {
             if(id == null)
                 return RedirectToAction("Index");
-            return View(_apiMeals.GetMealById(new HttpClient(), id).Result);
+            return View(_apiMeals.GetMealById(new(), id).Result);
         }
     }
 }
