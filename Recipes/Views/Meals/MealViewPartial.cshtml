@@ -1,0 +1,13 @@
+﻿@model Meal
+
+<a asp-action="MealRecipe" asp-route-id="@Model.idMeal">
+    <div class="card border-primary mb-2">
+        <div class="card-header">
+            @Model.strMeal
+        </div>
+        <div class="card-body">
+            <img src="@Model.strMealThumb" style="border-radius:15%" width="150" />
+        </div>
+
+    </div>
+</a>

@@ -1,59 +1,80 @@
 ﻿namespace Recipes.Models
 {
+    public class Meals
+    {
+        public MealJson[] meals { get; set; }
+    }
+    public class MealJson
+    {
+        public string idMeal { get; set; }
+        public string strMeal { get; set; }
+        public string strDrinkAlternate { get; set; }
+        public string strCategory { get; set; }
+        public string strArea { get; set; }
+        public string strInstructions { get; set; }
+        public string strMealThumb { get; set; }
+        public string strTags { get; set; }
+        public string strYoutube { get; set; }
+        public string strIngredient1 { get; set; }
+        public string strIngredient2 { get; set; }
+        public string strIngredient3 { get; set; }
+        public string strIngredient4 { get; set; }
+        public string strIngredient5 { get; set; }
+        public string strIngredient6 { get; set; }
+        public string strIngredient7 { get; set; }
+        public string strIngredient8 { get; set; }
+        public string strIngredient9 { get; set; }
+        public string strIngredient10 { get; set; }
+        public string strIngredient11 { get; set; }
+        public string strIngredient12 { get; set; }
+        public string strIngredient13 { get; set; }
+        public string strIngredient14 { get; set; }
+        public string strIngredient15 { get; set; }
+        public string strIngredient16 { get; set; }
+        public string strIngredient17 { get; set; }
+        public string strIngredient18 { get; set; }
+        public string strIngredient19 { get; set; }
+        public string strIngredient20 { get; set; }
+        public string strMeasure1 { get; set; }
+        public string strMeasure2 { get; set; }
+        public string strMeasure3 { get; set; }
+        public string strMeasure4 { get; set; }
+        public string strMeasure5 { get; set; }
+        public string strMeasure6 { get; set; }
+        public string strMeasure7 { get; set; }
+        public string strMeasure8 { get; set; }
+        public string strMeasure9 { get; set; }
+        public string strMeasure10 { get; set; }
+        public string strMeasure11 { get; set; }
+        public string strMeasure12 { get; set; }
+        public string strMeasure13 { get; set; }
+        public string strMeasure14 { get; set; }
+        public string strMeasure15 { get; set; }
+        public string strMeasure16 { get; set; }
+        public string strMeasure17 { get; set; }
+        public string strMeasure18 { get; set; }
+        public string strMeasure19 { get; set; }
+        public string strMeasure20 { get; set; }
+        public string strSource { get; set; }
+        public string strImageSource { get; set; }
+        public string strCreativeCommonsConfirmed { get; set; }
+        public string dateModified { get; set; }
+    }
     public class Meal
     {
-        public string IdMeal { get; set; }
-        public string StrMeal { get; set; }
-        public string StrDrinkAlternate { get; set; }
-        public string StrCategory { get; set; }
-        public string StrArea { get; set; }
-        public string StrInstructions { get; set; }
-        public string StrMealThumb { get; set; }
-        public string StrTags { get; set; }
-        public string StrYoutube { get; set; }
-        public string StrIngredient1 { get; set; }
-        public string StrIngredient2 { get; set; }
-        public string StrIngredient3 { get; set; }
-        public string StrIngredient4 { get; set; }
-        public string StrIngredient5 { get; set; }
-        public string StrIngredient6 { get; set; }
-        public string StrIngredient7 { get; set; }
-        public string StrIngredient8 { get; set; }
-        public string StrIngredient9 { get; set; }
-        public string StrIngredient10 { get; set; }
-        public string StrIngredient11 { get; set; }
-        public string StrIngredient12 { get; set; }
-        public string StrIngredient13 { get; set; }
-        public string StrIngredient14 { get; set; }
-        public string StrIngredient15 { get; set; }
-        public string StrIngredient16 { get; set; }
-        public string StrIngredient17 { get; set; }
-        public string StrIngredient18 { get; set; }
-        public string StrIngredient19 { get; set; }
-        public string StrIngredient20 { get; set; }
-        public string StrMeasure1 { get; set; }
-        public string StrMeasure2 { get; set; }
-        public string StrMeasure3 { get; set; }
-        public string StrMeasure4 { get; set; }
-        public string StrMeasure5 { get; set; }
-        public string StrMeasure6 { get; set; }
-        public string StrMeasure7 { get; set; }
-        public string StrMeasure8 { get; set; }
-        public string StrMeasure9 { get; set; }
-        public string StrMeasure10 { get; set; }
-        public string StrMeasure11 { get; set; }
-        public string StrMeasure12 { get; set; }
-        public string StrMeasure13 { get; set; }
-        public string StrMeasure14 { get; set; }
-        public string StrMeasure15 { get; set; }
-        public string StrMeasure16 { get; set; }
-        public string StrMeasure17 { get; set; }
-        public string StrMeasure18 { get; set; }
-        public string StrMeasure19 { get; set; }
-        public string StrMeasure20 { get; set; }
-        public string StrSource { get; set; }
-        public string StrImageSource { get; set; }
-        public string StrCreativeCommonsConfirmed { get; set; }
-        public string DateModified { get; set; }
+        public string idMeal { get; set; }
+        public string strMeal { get; set; }
+        public string strDrinkAlternate { get; set; }
+        public string strCategory { get; set; }
+        public string strArea { get; set; }
+        public string strInstructions { get; set; }
+        public string strMealThumb { get; set; }
+        public string strTags { get; set; }
+        public string strYoutube { get; set; }
+        public Dictionary<string, string> Ingredients { get; set; }
+        public string strSource { get; set; }
+        public string strImageSource { get; set; }
+        public string strCreativeCommonsConfirmed { get; set; }
+        public string dateModified { get; set; }
     }
 }

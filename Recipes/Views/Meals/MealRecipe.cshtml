@@ -1,0 +1,27 @@
+﻿@model Meal
+
+@{
+    ViewData["Title"] = "Meal Recipe";
+}
+
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-md-6 offset-md-3">
+            <h1 class="text-center mb-4">@Model.strMeal</h1>
+            <img src="@Model.strMealThumb" alt="@Model.strMeal" class="img-fluid recipe-img">
+            <h2 class="mt-4">Ingredients</h2>
+            <ul>
+                @foreach (var ingredient in Model.Ingredients)
+                {
+                    <li>@ingredient.Key - @ingredient.Value</li>
+                }
+            </ul>
+            <h2 class="mt-4">Instructions</h2>
+            <p>
+                @Model.strInstructions
+            </p>
+            <a href="@Model.strYoutube"><h2 class="mt-4">Video Tutorial</h2></a>
+        </div>
+    </div>
+</div>
+

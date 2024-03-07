@@ -1,7 +1,17 @@
-﻿@{
-    ViewData["Title"] = "Meals Recipes";
+﻿@model IList<Meal>
+@{
+    ViewData["Title"] = "Meal Recipes";
 }
 
 <div class="text-center">
     <h1 class="display-4">@ViewBag.title</h1>
+    <div style="display:flex;flex-wrap:wrap;justify-content: center;">
+        @foreach (var meal in Model)
+        {
+            if(meal != null)
+            {
+                <partial name="MealViewPartial" model="meal" />
+            }
+        }
+    </div>
 </div>
