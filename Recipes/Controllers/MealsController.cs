@@ -12,22 +12,26 @@ namespace Recipes.Controllers
             MealCategory mc = new() { meals = _apiMeals.GetRandomMeals(new(), 20).Result , categories = _apiMeals.GetMealCategories(new()).Result};
             return View(mc);
         }
-        [HttpGet]
+        [HttpGet,HttpPost]
         public IActionResult MealRecipe(string id)
         {
             if(id == null)
                 return RedirectToAction("Index");
-            Meal meal = _apiMeals.GetMealById(new(), id).Result;
+            Meal? meal;
+            if (int.TryParse(id, out _))
+                meal = _apiMeals.GetMealById(new(), id).Result;
+            else
+                meal = _apiMeals.GetMealByName(new(), id).Result;
             if(meal == null)
                 return RedirectToAction("Index");
             return View(meal);
         }
-        [HttpGet("/[controller]/MealCategory/{c}")]
-        public IActionResult MealCategory([FromRoute] string c)
+        [HttpGet("/[controller]/MealCategory/{id}")]
+        public IActionResult MealCategory([FromRoute] string id)
         {
-            if(c == null)
+            if(id == null)
                 return RedirectToAction("Index");
-            catwithmeals cwm = _apiMeals.GetMealsByCategory(new(), c).Result;
+            Catwithmeals? cwm = _apiMeals.GetMealsByCategory(new(), id).Result;
             if(cwm == null)
                 return RedirectToAction("Index");
             return View(cwm);
