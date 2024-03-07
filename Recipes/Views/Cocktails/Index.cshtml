@@ -5,8 +5,10 @@
 
 <div class="text-center">
     <h1 class="display-4">@ViewBag.title</h1>
-    @foreach (var cocktail in Model)
-    {
-        <partial name="CocktailViewPartial" model="cocktail" />
-    }
+    <div style="display:flex;flex-wrap:wrap;justify-content: center;">
+        @foreach (var cocktail in Model)
+        {
+            <partial name="CocktailViewPartial" model="cocktail" />
+        }
+    </div>
 </div>

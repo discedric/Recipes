@@ -5,7 +5,7 @@ namespace Recipes.Models;
 
 public class RandomCocktail
 {
-    public async Task<ActionResult> _RandomCocktail()
+    public async Task<Cocktail> _RandomCocktail()
     {
         using (var client = new HttpClient())
         {
@@ -34,8 +34,6 @@ public class RandomCocktail
                     StrCreativeCommonsConfirmed = cocktail.strCreativeCommonsConfirmed,
                     DateModified = cocktail.dateModified
                 };
-                var cocktails = new List<Cocktail>();
-                cocktails.Add(model);
 
                 for (var i = 1; i <= 15; i++)
                 {
@@ -45,10 +43,10 @@ public class RandomCocktail
                     if (measure != null) model.StrMeasures.Add(measure.Value);
                 }
 
-                return View(model);
+                return model;
             }
 
-            return View("Error");
+            return null;
         }
     }
 }
