@@ -1,8 +1,13 @@
 ﻿@model Cocktail
 
 <a asp-action="">
-    <div>
-        <h1>@Model.StrDrink</h1>
-        <img src="@Model.StrDrinkThumb"/>
+    <div class="card border-primary mb-2">
+        <div class="card-header">
+            @Model.StrDrink
+        </div>
+        <div class="card-body">
+            <img src="@Model.StrDrinkThumb" style="border-radius:15%" width="150"/>
+        </div>
+        
     </div>
 </a>
