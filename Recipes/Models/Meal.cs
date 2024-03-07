@@ -87,4 +87,23 @@
         public string strCreativeCommonsConfirmed { get; set; }
         public string dateModified { get; set; }
     }
+    public class CategoryList
+    {
+        public Category[] meals { get; set; }
+    }
+    public class Category
+    {
+        public string strCategory { get; set; }
+    }
+    public class catwithmeals
+    {
+        public string category { get; set; }
+        public IList<MealItem> meals { get; set; }
+    }
+    public class MealCategory
+    {
+        public IList<MealItem> meals { get; set; }
+        public IList<Category> categories { get; set; }
+    }
+
 }

@@ -1,0 +1,17 @@
+﻿@model catwithmeals
+@{
+    ViewData["Title"] = Model.category;
+}
+
+<div class="text-center">
+    <h1 class="display-4">@ViewBag.title</h1>
+    <div style="display:flex;flex-wrap:wrap;justify-content: center;">
+        @foreach (var meal in Model.meals)
+        {
+            if (meal != null)
+            {
+                <partial name="MealViewPartial" model="meal" />
+            }
+        }
+    </div>
+</div>
