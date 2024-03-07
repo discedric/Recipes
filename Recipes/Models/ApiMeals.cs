@@ -22,7 +22,7 @@ namespace Recipes.Models
         public async Task<IList<Meal>> GetRandomMeals(HttpClient client, int count)
         {
             IList<Meal> meals = new List<Meal>();
-            while (meals.Count < 20)
+            while (meals.Count < count)
             {
                 var cocktail = await GetRandomMeal(client);
                 if (!meals.Contains(cocktail))
