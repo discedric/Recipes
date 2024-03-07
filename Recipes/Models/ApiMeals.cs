@@ -47,14 +47,15 @@ namespace Recipes.Models
             }
         }
 
-        public async Task<Meal> GetMealByCategory(HttpClient client, string name)
+        public async Task<catwithmeals> GetMealsByCategory(HttpClient client, string c)
         {
-            string api = $"https://www.themealdb.com/api/json/v1/1/lookup.php?c={name}";
+            string api = $"https://www.themealdb.com/api/json/v1/1/filter.php?c={c}";
             try
             {
                 var json = await client.GetStringAsync(api);
-                var response = JsonSerializer.Deserialize<Meals>(json);
-                return Convert(response);
+                var response = JsonSerializer.Deserialize<MealItems>(json);
+                catwithmeals cwm = new() { category = c, meals = response.meals };
+                return cwm;
             }
             catch (Exception e)
             {
