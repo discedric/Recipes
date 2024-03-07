@@ -15,7 +15,11 @@ namespace Recipes.Controllers
         {
             if(id == null)
                 return RedirectToAction("Index");
-            return View(_apiMeals.GetMealById(new(), id).Result);
+            Meal meal = _apiMeals.GetMealById(new(), id).Result;
+            if(meal == null)
+                return RedirectToAction("Index");
+            return View(meal);
+            
         }
     }
 }

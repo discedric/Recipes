@@ -4,14 +4,15 @@ namespace Recipes.Models
 {
     public class ApiMeals
     {
-        public async Task<Meal> GetRandomMeal(HttpClient client)
+        public async Task<MealItem> GetRandomMeal(HttpClient client)
         {
             string api = "https://www.themealdb.com/api/json/v1/1/random.php";
             try
             {
                 var json = await client.GetStringAsync(api);
-                var response = JsonSerializer.Deserialize<Meals>(json);
-                return Convert(response);
+                var response = JsonSerializer.Deserialize<MealItems>(json);
+                MealItem item = response.meals[0];
+                return item;
             }
             catch (Exception e)
             {
@@ -19,9 +20,9 @@ namespace Recipes.Models
             }
         }
 
-        public async Task<IList<Meal>> GetRandomMeals(HttpClient client, int count)
+        public async Task<IList<MealItem>> GetRandomMeals(HttpClient client, int count)
         {
-            IList<Meal> meals = new List<Meal>();
+            IList<MealItem> meals = new List<MealItem>();
             while (meals.Count < count)
             {
                 var cocktail = await GetRandomMeal(client);
@@ -39,6 +40,36 @@ namespace Recipes.Models
                 var json = await client.GetStringAsync(api);
                 var response = JsonSerializer.Deserialize<Meals>(json);
                 return Convert(response);
+            }
+            catch (Exception e)
+            {
+                return null;
+            }
+        }
+
+        public async Task<Meal> GetMealByCategory(HttpClient client, string name)
+        {
+            string api = $"https://www.themealdb.com/api/json/v1/1/lookup.php?c={name}";
+            try
+            {
+                var json = await client.GetStringAsync(api);
+                var response = JsonSerializer.Deserialize<Meals>(json);
+                return Convert(response);
+            }
+            catch (Exception e)
+            {
+                return null;
+            }
+        }
+
+        public async Task<IList<Category>> GetMealCategories(HttpClient client)
+        {
+            string api = "https://www.themealdb.com/api/json/v1/1/list.php?c=list";
+            try
+            {
+                var json = await client.GetStringAsync(api);
+                var response = JsonSerializer.Deserialize<CategoryList>(json);
+                return response.meals;
             }
             catch (Exception e)
             {
