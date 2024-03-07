@@ -1,5 +1,15 @@
 ﻿namespace Recipes.Models
 {
+    public class MealItems
+    {
+        public MealItem[] meals { get; set; }
+    }
+    public class MealItem
+    {
+        public string idMeal { get; set; }
+        public string strMeal { get; set; }
+        public string strMealThumb { get; set; }
+    }
     public class Meals
     {
         public MealJson[] meals { get; set; }
