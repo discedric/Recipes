@@ -109,7 +109,7 @@ namespace Recipes.Models
             }
         }
 
-        public Meal Convert(Meals meals)
+        private Meal Convert(Meals meals)
         {
             var mealJson = meals.meals?[0];
             if (mealJson == null)
