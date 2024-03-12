@@ -1,0 +1,29 @@
+﻿@model MealItems
+@{
+    ViewData["Title"] = "Meal Search";
+}
+
+<div class="text-center">
+    <h1 class="display-4">@ViewBag.title</h1>
+    <form class="container-fluid" method="post" asp-action="MealRecipe">
+        <div class="input-group">
+            <input type="text" class="form-control" placeholder="Meal Name" name="id" aria-label="Meal name" aria-describedby="basic-addon1">
+            <button class="btn btn-primary" type="submit">Search</button>
+        </div>
+    </form>
+    <partial name="CategoryViewPartial" />
+    <h2>Meals</h2>
+    <div style="display:flex;flex-wrap:wrap;justify-content: center;">
+        @foreach (var meal in Model.meals)
+        {
+            if (meal != null)
+            {
+                <partial name="MealViewPartial" model="meal" />
+            }
+        }
+    </div>
+</div>
+
+
+
+

@@ -1,12 +1,12 @@
-﻿@model Cocktail
+﻿@model CocktailItem
 
-<a asp-action="">
+<a asp-action="CocktailRecipe" asp-route-id="@Model.idDrink">
     <div class="card border-primary mb-2">
         <div class="card-header">
             @Model.strDrink
         </div>
         <div class="card-body">
-            <img src="@Model.strCocktailThumb" style="border-radius:15%" width="150"/>
+            <img src="@Model.strDrinkThumb" style="border-radius:15%" width="150"/>
         </div>
         
     </div>

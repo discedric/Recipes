@@ -17,7 +17,7 @@ public class ApiCocktails
             if (response == null)
                 item = null;
             else
-                item = response.cocktails[0];
+                item = response.drinks[0];
             if (item == null)
                 return null;
             return item;
@@ -42,16 +42,16 @@ public class ApiCocktails
         return cocktails;
     }
 
-    public async Task<Cocktail?> GetCocktailByName(HttpClient client, string name)
+    public async Task<CocktailItems?> GetCocktailByName(HttpClient client, string name)
     {
         string api = $"https://www.thecocktaildb.com/api/json/v1/1/search.php?s={name}";
         try
         {
             var json = await client.GetStringAsync(api);
-            var response = JsonSerializer.Deserialize<Cocktails>(json);
+            var response = JsonSerializer.Deserialize<CocktailItems>(json);
             if (response == null)
                 return null;
-            return Convert(response);
+            return response;
         }
         catch
         {
@@ -85,7 +85,7 @@ public class ApiCocktails
             var response = JsonSerializer.Deserialize<CocktailItems>(json);
             if (response == null)
                 return null;
-            Categories.Catwithdrinks cwc = new() { category = c, drinks = response.cocktails };
+            Categories.Catwithdrinks cwc = new() { category = c, drinks = response.drinks };
             return cwc;
         }
         catch
@@ -113,7 +113,7 @@ public class ApiCocktails
 
     public Cocktail Convert(Cocktails cocktails)
     {
-        var cocktailJson = cocktails.cocktails?[0];
+        var cocktailJson = cocktails.drinks?[0];
         if (cocktailJson == null)
             return null;
         var cocktail = new Cocktail
@@ -126,7 +126,7 @@ public class ApiCocktails
             strGlass = cocktailJson?.strGlass,
             strIBA = cocktailJson?.strIBA,
             strInstructions = cocktailJson?.strInstructions,
-            strCocktailThumb = cocktailJson?.strCocktailThumb,
+            strDrinkThumb = cocktailJson?.strDrinkThumb,
             strTags = cocktailJson?.strTags,
             strYoutube = cocktailJson?.strYoutube,
             strSource = cocktailJson?.strSource,
@@ -144,8 +144,8 @@ public class ApiCocktails
     {
         for (int i = 1; i <= 20; i++)
         {
-            string ingredient = (string)cocktailJson.GetType().GetProperty($"strIngredient{i}").GetValue(cocktailJson);
-            string measure = (string)cocktailJson.GetType().GetProperty($"strMeasure{i}").GetValue(cocktailJson);
+            string ingredient = (string)cocktailJson.GetType().GetProperty($"strIngredient{i}")?.GetValue(cocktailJson);
+            string measure = (string)cocktailJson.GetType().GetProperty($"strMeasure{i}")?.GetValue(cocktailJson);
 
             if (!string.IsNullOrEmpty(ingredient) && !string.IsNullOrEmpty(measure))
             {

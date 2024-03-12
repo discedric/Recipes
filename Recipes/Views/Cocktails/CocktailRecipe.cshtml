@@ -1,0 +1,29 @@
+﻿@model Cocktail
+
+@{
+    ApiCocktails _apiCocktails = new();
+    ViewData["Title"] = "Cocktail Recipe";
+    IList<Categories.Category> categories = _apiCocktails.GetCocktailCategories(new()).Result;
+}
+
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-md-6 offset-md-3">
+            <h1 class="text-center mb-4">@Model.strDrink</h1>
+            <img src="@Model.strDrinkThumb" alt="@Model.strDrink" class="img-fluid recipe-img">
+            <h2 class="mt-4">Ingredients</h2>
+            <ul>
+                @foreach (var ingredient in Model.Ingredients)
+                {
+                    <li>@ingredient.Key - @ingredient.Value</li>
+                }
+            </ul>
+            <h2 class="mt-4">Instructions</h2>
+            <p>
+                @Model.strInstructions
+            </p>
+            <a href="@Model.strYoutube"><h2 class="mt-4">Video Tutorial</h2></a>
+        </div>
+    </div>
+</div>
+
