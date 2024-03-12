@@ -1,7 +1,40 @@
-﻿@{
+﻿@model IList<MealItem>
+@{
     ViewData["Title"] = "Home Page";
+
 }
 
 <div class="text-center">
-    <h1 class="display-4">Welcome</h1>
+    <h1 class="display-4">Welcome To Recipes</h1>
+</div>
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-6">
+            <div class="spacer"></div>
+            <div class="card">
+                <a asp-controller="Meals" asp-action="Index" style="color:black;text-decoration:none;"><h5 class="card-header">Meals</h5></a>
+                <ul class="list-group list-group-flush">
+                    @foreach (MealItem mi in @Model)
+                    {
+                        <a asp-controller="Meals" asp-action="MealRecipe" asp-route-id="@mi.idMeal" style="color:black;text-decoration:none;">
+                            <li class="card container-fluid" style="flex-direction:row;">
+                                <img width="150" src="@mi.strMealThumb" />
+                                <h2 style="align-self:center">@mi.strMeal</h2>
+                            </li>
+                        </a>
+                    }
+                </ul>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="spacer"></div>
+            <div class="card">
+                <h5 class="card-header">Cocktails</h5>
+                <ul class="list-group list-group-flush">
+                    
+                </ul>
+            </div>
+        </div>
+    </div>
 </div>
