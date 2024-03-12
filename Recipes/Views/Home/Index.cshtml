@@ -1,4 +1,4 @@
-﻿@model IList<MealItem>
+﻿@model Categories.mealDrinks
 @{
     ViewData["Title"] = "Home Page";
 
@@ -15,7 +15,7 @@
             <div class="card">
                 <a asp-controller="Meals" asp-action="Index" style="color:black;text-decoration:none;"><h5 class="card-header">Meals</h5></a>
                 <ul class="list-group list-group-flush">
-                    @foreach (MealItem mi in @Model)
+                    @foreach (MealItem mi in @Model.meals)
                     {
                         <a asp-controller="Meals" asp-action="MealRecipe" asp-route-id="@mi.idMeal" style="color:black;text-decoration:none;">
                             <li class="card container-fluid" style="flex-direction:row;">
@@ -32,7 +32,15 @@
             <div class="card">
                 <h5 class="card-header">Cocktails</h5>
                 <ul class="list-group list-group-flush">
-                    
+                    @foreach (CocktailItem mi in @Model.drinks)
+                    {
+                        <a asp-controller="Meals" asp-action="MealRecipe" asp-route-id="@mi.idDrink" style="color:black;text-decoration:none;">
+                        <li class="card container-fluid" style="flex-direction:row;">
+                            <img width="150" src="@mi.strDrinkThumb" />
+                            <h2 style="align-self:center">@mi.strDrink</h2>
+                        </li>
+                        </a>
+                    }
                 </ul>
             </div>
         </div>

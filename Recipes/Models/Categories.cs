@@ -35,6 +35,10 @@
             public IList<Category>? categories { get; set; }
         }
 
-
+        public class mealDrinks
+        {
+            public IList<MealItem>? meals { get; set; }
+            public IList<CocktailItem>? drinks { get; set; }
+        }
     }
 }
