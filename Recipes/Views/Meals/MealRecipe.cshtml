@@ -3,7 +3,7 @@
 @{
     ApiMeals _apiMeals = new();
     ViewData["Title"] = "Meal Recipe";
-    IList<Category> categories = _apiMeals.GetMealCategories(new()).Result;
+    IList<Categories.Category> categories = _apiMeals.GetMealCategories(new()).Result;
 }
 
 <div class="container mt-5">

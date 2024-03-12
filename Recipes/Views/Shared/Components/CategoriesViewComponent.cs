@@ -9,7 +9,7 @@ namespace Recipes.Views.Shared.Components
         public async Task<IViewComponentResult> InvokeAsync()
         {
             ApiMeals apiMeals = new();
-            IList<Category> categories = await apiMeals.GetMealCategories(new());
+            IList<Categories.Category> categories = await apiMeals.GetMealCategories(new());
             return View(categories);
         }
     }
