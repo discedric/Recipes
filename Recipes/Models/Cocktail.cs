@@ -2,17 +2,17 @@ namespace Recipes
 {
     public class CocktailItems
     {
-        public CocktailItem[]? cocktails { get; set; }
+        public CocktailItem[]? drinks { get; set; }
     }
     public class CocktailItem
     {
-        public string? id { get; set; }
-        public string? strCocktail { get; set; }
-        public string? strCocktailThumb { get; set; }
+        public string? idDrink { get; set; }
+        public string? strDrink { get; set; }
+        public string? strDrinkThumb { get; set; }
     }
     public class Cocktails
     {
-        public CocktailJson[]? cocktails { get; set; }
+        public CocktailJson[]? drinks { get; set; }
     }
     public class CocktailJson
     {
@@ -25,7 +25,7 @@ namespace Recipes
         public string? strIBA { get; set; }
         public string? strTags { get; set; }
         public string? strInstructions { get; set; }
-        public string? strCocktailThumb { get; set; }
+        public string? strDrinkThumb { get; set; }
         public string? strYoutube { get; set; }
         public string? strIngredient1 { get; set; }
         public string? strIngredient2 { get; set; }
@@ -73,7 +73,7 @@ namespace Recipes
         public string? strIBA { get; set; }
         public string? strTags { get; set; }
         public string? strInstructions { get; set; }
-        public string? strCocktailThumb { get; set; }
+        public string? strDrinkThumb { get; set; }
         public string? strYoutube { get; set; }
         public Dictionary<string, string>? Ingredients { get; set; }
         public string? strSource { get; set; }

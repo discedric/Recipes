@@ -1,14 +1,29 @@
-﻿@model IList<CocktailItem>
+﻿@using Microsoft.AspNetCore.Mvc.TagHelpers
+@model IList<CocktailItem>
 @{
     ViewData["Title"] = "Cocktails Recipes";
 }
 
 <div class="text-center">
     <h1 class="display-4">@ViewBag.title</h1>
+    <form class="container-fluid" method="post" asp-action="CocktailRecipe">
+        <div class="input-group">
+            <input type="text" class="form-control" placeholder="Meal Name" name="id" aria-label="Meal name" aria-describedby="basic-addon1">
+            <button class="btn btn-primary" type="submit">Search</button>
+        </div>
+    </form>
+    <partial name="CategoryViewPartial" />
+    <h2>Random Meals</h2>
     <div style="display:flex;flex-wrap:wrap;justify-content: center;">
-        @foreach (var cocktail in Model)
+        @if (Model != null)
         {
-            <partial name="CocktailViewPartial" model="cocktail" />
+            foreach (var drink in Model)
+            {
+                if (drink != null)
+                {
+                    <partial name="CocktailViewPartial" model="drink" />
+                }
+            }
         }
     </div>
 </div>
