@@ -17,14 +17,20 @@ namespace Recipes.Controllers
         {
             if(id == null)
                 return RedirectToAction("Index");
-            Meal? meal;
-            if (int.TryParse(id, out _))
-                meal = _apiMeals.GetMealById(new(), id).Result;
-            else
-                meal = _apiMeals.GetMealByName(new(), id).Result;
-            if(meal == null)
+            var meal = _apiMeals.GetMealById(new(), id).Result;
+            if (meal == null)
                 return RedirectToAction("Index");
             return View(meal);
+        }
+        [HttpGet,HttpPost]
+        public IActionResult SearchMeal(string name)
+        {
+            if(name == null)
+                return RedirectToAction("Index");
+            MealItems? meals = _apiMeals.GetMealByName(new(), name).Result;
+            if(meals == null)
+                return RedirectToAction("Index");
+            return View(meals);
         }
         [HttpGet("/[controller]/MealCategory/{id}")]
         public IActionResult MealCategory([FromRoute] string id)

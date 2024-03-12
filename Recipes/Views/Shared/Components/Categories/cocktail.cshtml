@@ -1,0 +1,10 @@
+﻿@using Microsoft.AspNetCore.Mvc.TagHelpers
+@{
+    ApiCocktails _apiCocktails = new();
+    var categories = _apiCocktails.GetCocktailCategories(new()).Result;
+}
+
+@foreach (var category in categories)
+{
+    <li><a class="dropdown-item" asp-area="" asp-controller="Cocktails" asp-action="CocktailCategory" asp-route-id="@category.strCategory">@category.strCategory</a></li>
+}

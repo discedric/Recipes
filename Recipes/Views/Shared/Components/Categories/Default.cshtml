@@ -1,8 +1,0 @@
-﻿@using Microsoft.AspNetCore.Mvc.TagHelpers
-@model IList<Categories.Category>
-
-
-    @foreach (var category in Model)
-    {
-        <li><a class="dropdown-item" asp-area="" asp-controller="Meals" asp-action="MealCategory" asp-route-id="@category.strCategory">@category.strCategory</a></li>
-    }

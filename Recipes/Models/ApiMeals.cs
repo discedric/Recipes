@@ -40,16 +40,14 @@ namespace Recipes.Models
             return meals;
         }
 
-        public async Task<Meal?> GetMealByName(HttpClient client, string name)
+        public async Task<MealItems?> GetMealByName(HttpClient client, string name)
         {
             string api = $"https://www.themealdb.com/api/json/v1/1/search.php?s={name}";
             try
             {
                 var json = await client.GetStringAsync(api);
-                var response = JsonSerializer.Deserialize<Meals>(json);
-                if (response == null)
-                    return null;
-                return Convert(response);
+                var response = JsonSerializer.Deserialize<MealItems>(json);
+                return response;
             }
             catch
             {
