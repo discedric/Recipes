@@ -42,16 +42,16 @@ public class ApiCocktails
         return cocktails;
     }
 
-    public async Task<Cocktail?> GetCocktailByName(HttpClient client, string name)
+    public async Task<CocktailItems?> GetCocktailByName(HttpClient client, string name)
     {
         string api = $"https://www.thecocktaildb.com/api/json/v1/1/search.php?s={name}";
         try
         {
             var json = await client.GetStringAsync(api);
-            var response = JsonSerializer.Deserialize<Cocktails>(json);
+            var response = JsonSerializer.Deserialize<CocktailItems>(json);
             if (response == null)
                 return null;
-            return Convert(response);
+            return response;
         }
         catch
         {

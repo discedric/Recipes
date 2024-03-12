@@ -18,14 +18,20 @@ namespace Recipes.Controllers
         {
             if (id == null)
                 return RedirectToAction("Index");
-            Cocktail? item;
-            if (int.TryParse(id, out _))
-                item = _apiDrinks.GetCocktailById(new(), id).Result;
-            else
-                item = _apiDrinks.GetCocktailByName(new(), id).Result;
+            var item = _apiDrinks.GetCocktailById(new(), id).Result;
             if (item == null)
                 return RedirectToAction("Index");
             return View(item);
+        }
+        [HttpGet, HttpPost]
+        public IActionResult SearchDrinks(string name)
+        {
+            if (name == null)
+                return RedirectToAction("Index");
+            CocktailItems? items = _apiDrinks.GetCocktailByName(new(), name).Result;
+            if (items == null)
+                return RedirectToAction("Index");
+            return View(items);
         }
         [HttpGet("/[controller]/MealCategory/{id}")]
         public IActionResult CocktailCategory([FromRoute] string id)
