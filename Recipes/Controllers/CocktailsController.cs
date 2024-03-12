@@ -13,11 +13,11 @@ namespace Recipes.Controllers
 
         public async Task<IList<Cocktail>> LoadCocktails()
         {
-            RandomCocktail randomCocktail = new RandomCocktail();
+            ApiCocktails apiCocktails = new ApiCocktails();
             IList<Cocktail> cocktails = new List<Cocktail>();
             while (cocktails.Count < 20)
             {
-                var cocktail = await randomCocktail._RandomCocktail();
+                var cocktail = await apiCocktails._RandomCocktail();
                 if (!cocktails.Contains(cocktail))
                     cocktails.Add(cocktail);
             }
