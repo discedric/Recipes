@@ -81,23 +81,5 @@ namespace Recipes
         public string? strCreativeCommonsConfirmed { get; set; }
         public string? dateModified { get; set; }
     }
-    public class CategoryList
-    {
-        public Category[]? cocktails { get; set; }
-    }
-    public class Category
-    {
-        public string? strCategory { get; set; }
-    }
-    public class Catwithcocktails
-    {
-        public string? category { get; set; }
-        public IList<CocktailItem>? cocktails { get; set; }
-    }
-    public class CocktailCategory
-    {
-        public IList<CocktailItem>? cocktails { get; set; }
-        public IList<Category>? categories { get; set; }
-    }
 }
 

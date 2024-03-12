@@ -76,7 +76,7 @@ public class ApiCocktails
         }
     }
 
-    public async Task<Catwithcocktails?> GetCocktailsByCategory(HttpClient client, string c)
+    public async Task<Categories.Catwithdrinks?> GetCocktailsByCategory(HttpClient client, string c)
     {
         string api = $"https://www.thecocktaildb.com/api/json/v1/1/filter.php?c={c}";
         try
@@ -85,7 +85,7 @@ public class ApiCocktails
             var response = JsonSerializer.Deserialize<CocktailItems>(json);
             if (response == null)
                 return null;
-            Catwithcocktails cwc = new() { category = c, cocktails = response.cocktails };
+            Categories.Catwithdrinks cwc = new() { category = c, drinks = response.cocktails };
             return cwc;
         }
         catch
@@ -94,16 +94,16 @@ public class ApiCocktails
         }
     }
 
-    public async Task<IList<Category>?> GetCocktailCategories(HttpClient client)
+    public async Task<IList<Categories.Category>?> GetCocktailCategories(HttpClient client)
     {
         string api = "https://www.thecocktaildb.com/api/json/v1/1/list.php?c=list";
         try
         {
             var json = await client.GetStringAsync(api);
-            var response = JsonSerializer.Deserialize<CategoryList>(json);
+            var response = JsonSerializer.Deserialize<Categories.cCategoryList>(json);
             if (response == null)
                 return null;
-            return response.meals;
+            return response.drinks;
         }
         catch
         {
