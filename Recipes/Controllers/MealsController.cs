@@ -9,7 +9,7 @@ namespace Recipes.Controllers
         [HttpGet]
         public IActionResult Index()
         {
-            MealCategory mc = new() { meals = _apiMeals.GetRandomMeals(new(), 20).Result , categories = _apiMeals.GetMealCategories(new()).Result};
+            Categories.MealCategory mc = new() { meals = _apiMeals.GetRandomMeals(new(), 20).Result , categories = _apiMeals.GetMealCategories(new()).Result};
             return View(mc);
         }
         [HttpGet,HttpPost]
@@ -31,7 +31,7 @@ namespace Recipes.Controllers
         {
             if(id == null)
                 return RedirectToAction("Index");
-            Catwithmeals? cwm = _apiMeals.GetMealsByCategory(new(), id).Result;
+            Categories.Catwithmeals? cwm = _apiMeals.GetMealsByCategory(new(), id).Result;
             if(cwm == null)
                 return RedirectToAction("Index");
             return View(cwm);
