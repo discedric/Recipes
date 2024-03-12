@@ -74,7 +74,7 @@ namespace Recipes.Models
             }
         }
 
-        public async Task<Catwithmeals?> GetMealsByCategory(HttpClient client, string c)
+        public async Task<Categories.Catwithmeals?> GetMealsByCategory(HttpClient client, string c)
         {
             string api = $"https://www.themealdb.com/api/json/v1/1/filter.php?c={c}";
             try
@@ -83,7 +83,7 @@ namespace Recipes.Models
                 var response = JsonSerializer.Deserialize<MealItems>(json);
                 if (response == null)
                     return null;
-                Catwithmeals cwm = new() { category = c, meals = response.meals };
+                Categories.Catwithmeals cwm = new() { category = c, meals = response.meals };
                 return cwm;
             }
             catch
@@ -92,13 +92,13 @@ namespace Recipes.Models
             }
         }
 
-        public async Task<IList<Category>?> GetMealCategories(HttpClient client)
+        public async Task<IList<Categories.Category>?> GetMealCategories(HttpClient client)
         {
             string api = "https://www.themealdb.com/api/json/v1/1/list.php?c=list";
             try
             {
                 var json = await client.GetStringAsync(api);
-                var response = JsonSerializer.Deserialize<CategoryList>(json);
+                var response = JsonSerializer.Deserialize<Categories.mCategoryList>(json);
                 if (response == null)
                     return null;
                 return response.meals;
@@ -109,7 +109,7 @@ namespace Recipes.Models
             }
         }
 
-        public Meal Convert(Meals meals)
+        private Meal Convert(Meals meals)
         {
             var mealJson = meals.meals?[0];
             if (mealJson == null)

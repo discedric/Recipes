@@ -1,6 +1,7 @@
-﻿@{
+﻿@using Microsoft.AspNetCore.Mvc.TagHelpers
+@{
     ApiMeals _apiMeals = new();
-    IList<Category> categories = _apiMeals.GetMealCategories(new()).Result;
+    IList<Categories.Category> categories = _apiMeals.GetMealCategories(new()).Result;
     ViewData["Title"] = "Meal Categories";
 }
 

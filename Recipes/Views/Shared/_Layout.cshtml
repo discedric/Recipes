@@ -25,6 +25,7 @@
                             </a>
                             <ul class="dropdown-menu">
                                 <li><a class="dropdown-item" asp-area="" asp-controller="Meals" asp-action="index">Home</a></li>
+                                <li><hr class="dropdown-divider" /></li>
                                 @await Component.InvokeAsync("Categories")
                             </ul>
                         </li>
