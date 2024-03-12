@@ -6,22 +6,12 @@ namespace Recipes.Controllers
 {
     public class CocktailsController : Controller
     {
+        private readonly ApiCocktails _apiDrinks = new ApiCocktails();
+        [HttpGet]
         public IActionResult Index()
         {
-            return View(LoadCocktails().Result);
-        }
-
-        public async Task<IList<Cocktail>> LoadCocktails()
-        {
-            ApiCocktails apiCocktails = new ApiCocktails();
-            IList<Cocktail> cocktails = new List<Cocktail>();
-            while (cocktails.Count < 20)
-            {
-                var cocktail = await apiCocktails._RandomCocktail();
-                if (!cocktails.Contains(cocktail))
-                    cocktails.Add(cocktail);
-            }
-            return cocktails;
+            Categories.DrinkCategory mc = new() { drinks = _apiDrinks.GetRandomCocktails(new(), 20).Result, categories = _apiDrinks.GetCocktailCategories(new()).Result };
+            return View(mc);
         }
     }
 }
