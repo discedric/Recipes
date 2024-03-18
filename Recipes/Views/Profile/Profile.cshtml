@@ -1,0 +1,96 @@
+﻿@model User;
+
+<section style="background-color: #eee; align-content:center;">
+    <div class="py-5">
+        <div class="d-flex flex-column align-items-center">
+            <div class="col-lg-8">
+                <div class="card mb-4">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-sm-3">
+                                <p class="mb-0">Username</p>
+                            </div>
+                            <div class="col-sm-9">
+                                <p class="text-muted mb-0">@Model.Username</p>
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="row">
+                            <div class="col-sm-3">
+                                <p class="mb-0">Email</p>
+                            </div>
+                            <div class="col-sm-9">
+                                <p class="text-muted mb-0">@Model.Email</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div style="display:flex;flex-wrap:wrap;justify-content: center;">
+                            @if(Model.Favorites != null){
+                                @foreach (var recipe in Model.Favorites)
+                                {
+                                    if (recipe.Soort == "meal")
+                                    {
+                                        var meal = await new ApiMeals().GetMealById(new(), recipe.RecipeId.ToString());
+                                        if(meal != null)
+                                        {
+                                            MealItem mealitem = new MealItem { idMeal = meal.idMeal, strMeal = meal.strMeal, strMealThumb = meal.strMealThumb };
+                                            <partial name="../Meals/MealViewPartial" model="mealitem" />
+                                        }
+                                    }
+                                    else if (recipe.Soort == "cocktail")
+                                    {
+                                        var drink = await new ApiCocktails().GetCocktailById(new(), recipe.RecipeId.ToString());
+                                        if(drink != null)
+                                        {
+                                            CocktailItem drinkitem = new CocktailItem { idDrink = drink.idDrink, strDrink = drink.strDrink, strDrinkThumb = drink.strDrinkThumb };
+                                            <partial name="../Cocktails/CocktailViewPartial" model="drinkitem" />
+                                        }
+                                    }
+                                }
+                            }
+                            else
+                            {
+                                <div class="card">
+                                    <div class="card-body">
+                                        <h5 class="card-title">Er zijn nog geen favorieten gemaakt</h5>
+                                    </div>
+                                </div>
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            // Attach event handler to both anchor elements
+            $('.favorite-button').click(function (e) {
+                e.preventDefault(); // Prevent default behavior of anchor element
+
+                var id = $(this).data('id');
+                var soort = $(this).data('soort');
+
+                $.ajax({
+                    url: '/Profile/DelFavorite',
+                    type: 'POST',
+                    data: { id: id, soort: soort },
+                    success: function (response) {
+                        // Handle success response if needed
+                        console.log("Recipe Deleted from favorites!");
+                    },
+                    error: function (xhr, status, error) {
+                        // Handle error response if needed
+                        console.error("Error Removing recipe to favorites:", error);
+                    }
+                });
+            });
+        });
+    </script>
+}

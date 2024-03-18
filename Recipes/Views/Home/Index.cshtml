@@ -18,10 +18,14 @@
                 <ul class="list-group list-group-flush">
                     @foreach (MealItem mi in @Model.meals)
                     {
+                        var routeData = new RouteValueDictionary(mi).ToDictionary(kvp => kvp.Key, kvp => kvp.Value?.ToString());
                         <a asp-controller="Meals" asp-action="MealRecipe" asp-route-id="@mi.idMeal" style="color:black;text-decoration:none;">
-                            <li class="card container-fluid" style="flex-direction:row;">
-                                <img width="150" src="@mi.strMealThumb" />
-                                <h2 style="align-self:center">@mi.strMeal</h2>
+                            <li class="card container-fluid" style="flex-direction:column;">
+                                <div class="row">
+                                    <img style="width:150px !important;" src="@mi.strMealThumb" />
+                                    <h2 style="align-self:center; width:70%;">@mi.strMeal</h2>
+                                </div>
+                                <a id="favoriteButton" href="#" data-id="@mi.idMeal" data-soort="meal" class="btn btn-outline-warning favorite-button">Favorite</a>
                             </li>
                         </a>
                     }
@@ -35,11 +39,15 @@
                 <ul class="list-group list-group-flush">
                     @foreach (CocktailItem mi in @Model.drinks)
                     {
+                        var routeData = new RouteValueDictionary(mi).ToDictionary(kvp => kvp.Key, kvp => kvp.Value?.ToString());
                         <a asp-controller="Cocktails" asp-action="CocktailRecipe" asp-route-id="@mi.idDrink" style="color:black;text-decoration:none;">
-                        <li class="card container-fluid" style="flex-direction:row;">
-                            <img width="150" src="@mi.strDrinkThumb" />
-                            <h2 style="align-self:center">@mi.strDrink</h2>
-                        </li>
+                            <li class="card container-fluid" style="flex-direction:column;">
+                                <div class="row">
+                                    <img style="width:150px !important;" src="@mi.strDrinkThumb" />
+                                    <h2 style="align-self:center; width:70%;">@mi.strDrink</h2>
+                                </div>
+                                <a id="favoriteButton" href="#" data-id="@mi.idDrink" data-soort="cocktail" class="btn btn-outline-warning favorite-button">Favorite</a>
+                            </li>
                         </a>
                     }
                 </ul>
@@ -47,3 +55,31 @@
         </div>
     </div>
 </div>
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            // Attach event handler to both anchor elements
+            $('.favorite-button').click(function (e) {
+                e.preventDefault(); // Prevent default behavior of anchor element
+
+                var id = $(this).data('id');
+                var soort = $(this).data('soort');
+
+                $.ajax({
+                    url: '/Profile/AddFavorite',
+                    type: 'POST',
+                    data: { id: id, soort: soort },
+                    success: function (response) {
+                        // Handle success response if needed
+                        console.log("Recipe added to favorites!");
+                    },
+                    error: function (xhr, status, error) {
+                        // Handle error response if needed
+                        console.error("Error adding recipe to favorites:", error);
+                    }
+                });
+            });
+        });
+    </script>
+}

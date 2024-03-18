@@ -1,4 +1,7 @@
 ﻿@model CocktailItem
+@{
+    var routeData = new RouteValueDictionary(Model).ToDictionary(kvp => kvp.Key, kvp => kvp.Value?.ToString());
+}
 
 <a asp-action="CocktailRecipe" asp-route-id="@Model.idDrink">
     <div class="card border-primary mb-2">
@@ -8,6 +11,34 @@
         <div class="card-body">
             <img src="@Model.strDrinkThumb" style="border-radius:15%" width="150"/>
         </div>
-        
+        <a id="favoriteButton" href="#" data-id="@Model.idDrink" data-soort="cocktail" class="btn btn-outline-warning favorite-button">Favorite</a>
     </div>
 </a>
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            // Attach event handler to both anchor elements
+            $('.favorite-button').click(function (e) {
+                e.preventDefault(); // Prevent default behavior of anchor element
+
+                var id = $(this).data('id');
+                var soort = $(this).data('soort');
+
+                $.ajax({
+                    url: '/Profile/AddFavorite',
+                    type: 'POST',
+                    data: { id: id, soort: soort },
+                    success: function (response) {
+                        // Handle success response if needed
+                        console.log("Recipe added to favorites!");
+                    },
+                    error: function (xhr, status, error) {
+                        // Handle error response if needed
+                        console.error("Error adding recipe to favorites:", error);
+                    }
+                });
+            });
+        });
+    </script>
+}
