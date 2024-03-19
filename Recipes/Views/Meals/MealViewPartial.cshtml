@@ -3,7 +3,7 @@
     var routeData = new RouteValueDictionary(Model).ToDictionary(kvp => kvp.Key, kvp => kvp.Value?.ToString());
 }
 
-<a asp-action="MealRecipe" asp-route-id="@Model.idMeal" style="padding:5px;">
+<a asp-action="MealRecipe" asp-controller="Meals" asp-route-id="@Model.idMeal" style="padding:5px;">
     <div class="card border-primary mb-2" style="width:18rem;">
         <div class="card-header">
             @Model.strMeal
@@ -11,7 +11,7 @@
         <div class="card-body">
             <img src="@Model.strMealThumb" style="border-radius:15%" width="150" />
         </div>
-        <a id="favoriteButton" href="#" data-id="@Model.idMeal" data-soort="meal" class="btn btn-outline-warning favorite-button">Favorite</a>
+        <a id="favoriteButton" href="#" data-id="@Model.idMeal" data-soort="meal" class="btn btn-outline-warning favorite-button mt-auto">Favorite</a>
     </div>
 </a>
 

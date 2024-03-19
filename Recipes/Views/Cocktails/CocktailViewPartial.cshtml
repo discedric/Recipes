@@ -3,15 +3,15 @@
     var routeData = new RouteValueDictionary(Model).ToDictionary(kvp => kvp.Key, kvp => kvp.Value?.ToString());
 }
 
-<a asp-action="CocktailRecipe" asp-route-id="@Model.idDrink">
-    <div class="card border-primary mb-2">
+<a asp-action="CocktailRecipe" asp-controller="Cocktails" asp-route-id="@Model.idDrink" style="padding:5px;">
+    <div class="card border-primary mb-2" style="width:18rem;">
         <div class="card-header">
             @Model.strDrink
         </div>
         <div class="card-body">
             <img src="@Model.strDrinkThumb" style="border-radius:15%" width="150"/>
         </div>
-        <a id="favoriteButton" href="#" data-id="@Model.idDrink" data-soort="cocktail" class="btn btn-outline-warning favorite-button">Favorite</a>
+        <a id="favoriteButton" href="#" data-id="@Model.idDrink" data-soort="cocktail" class="btn btn-outline-warning favorite-button mt-auto">Favorite</a>
     </div>
 </a>
 

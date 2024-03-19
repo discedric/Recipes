@@ -1,24 +1,28 @@
-﻿@{
-}
+﻿@model User
 
 <div class="d-flex align-items-center py-4 bg-body-tertiary">
     <main class="form-signin w-100 m-auto" style="max-width:300px;">
-        <form method="post">
+        <form method="post" asp-action="Register">
+            @Html.AntiForgeryToken()
+            @Html.ValidationSummary(true)
+
             <h1 class="h3 mb-3 fw-normal">Please sign up</h1>
 
             <div class="form-floating">
-                <input type="text" class="form-control" id="Username" placeholder="funny name">
-                <label for="Username">Username</label>
+                <input asp-for="Username" class="form-control" placeholder="funny name">
+                <label asp-for="Username">Username</label>
+                <span asp-validation-for="Username" class="text-danger"></span>
             </div>
 
             <div class="form-floating">
-                <input type="email" class="form-control" id="Email" placeholder="name@example.com">
-                <label for="Email">Email address</label>
+                <input asp-for="Email" class="form-control" placeholder="name@example.com">
+                <label asp-for="Email">Email address</label>
+                <span asp-validation-for="Email" class="text-danger"></span>
             </div>
 
             <div class="form-floating">
-                <input type="password" class="form-control" id="Password" placeholder="Password">
-                <label for="Password">Password</label>
+                <input asp-for="Password" type="password" class="form-control" placeholder="Password">
+                <label asp-for="Password">Password</label>
             </div>
 
             <button class="btn btn-primary w-100 py-2" type="submit">Sign up</button>

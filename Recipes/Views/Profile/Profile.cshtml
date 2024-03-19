@@ -1,5 +1,15 @@
 ﻿@model User;
 
+@{
+    IList<Favorites> FMeals = null;
+    IList<Favorites> FCocktails = null;
+    if(Model.Favorites != null)
+    {
+        FMeals = Model.Favorites.Where(f => f.Soort == "meal").ToList();
+        FCocktails = Model.Favorites.Where(f => f.Soort == "cocktail").ToList();
+    }
+}
+
 <section style="background-color: #eee; align-content:center;">
     <div class="py-5">
         <div class="d-flex flex-column align-items-center">
@@ -27,29 +37,51 @@
                 </div>
                 <div class="row">
                     <div class="col-lg-12">
-                        <div style="display:flex;flex-wrap:wrap;justify-content: center;">
+                        <div style="display:flex;flex-direction:column;flex-wrap:wrap;justify-content: center;">
                             @if(Model.Favorites != null){
-                                @foreach (var recipe in Model.Favorites)
-                                {
-                                    if (recipe.Soort == "meal")
-                                    {
-                                        var meal = await new ApiMeals().GetMealById(new(), recipe.RecipeId.ToString());
-                                        if(meal != null)
+                                <h2 class="text-center">Favorieten</h2>
+                                <div class="text-center d-flex justify-content-between">
+                                    <div class="w-auto ">
+                                        <h2>Meals</h2>
+                                        @if(FMeals != null)
                                         {
-                                            MealItem mealitem = new MealItem { idMeal = meal.idMeal, strMeal = meal.strMeal, strMealThumb = meal.strMealThumb };
-                                            <partial name="../Meals/MealViewPartial" model="mealitem" />
+                                            @foreach (var meal in FMeals)
+                                            {
+                                                var jmeal = await new ApiMeals().GetMealById(new(), meal.recipeId.ToString());
+                                                var mealitem = new MealItem()
+                                                {
+                                                    idMeal = jmeal.idMeal,
+                                                    strMeal = jmeal.strMeal,
+                                                    strMealThumb = jmeal.strMealThumb,
+                                                };
+                                                if (mealitem != null)
+                                                {
+                                                    <partial name="../Meals/MealViewPartial" model="mealitem" />
+                                                }
+                                            }
                                         }
-                                    }
-                                    else if (recipe.Soort == "cocktail")
-                                    {
-                                        var drink = await new ApiCocktails().GetCocktailById(new(), recipe.RecipeId.ToString());
-                                        if(drink != null)
+                                    </div>
+                                    <div class ="w-auto">
+                                        <h2>Drinks</h2>
+                                        @if(FCocktails != null)
                                         {
-                                            CocktailItem drinkitem = new CocktailItem { idDrink = drink.idDrink, strDrink = drink.strDrink, strDrinkThumb = drink.strDrinkThumb };
-                                            <partial name="../Cocktails/CocktailViewPartial" model="drinkitem" />
+                                            @foreach (var cocktail in FCocktails)
+                                            {
+                                                var drink = await new ApiCocktails().GetCocktailById(new(), cocktail.recipeId.ToString());
+                                                var drinkitem = new CocktailItem()
+                                                {
+                                                    idDrink = drink.idDrink,
+                                                    strDrink = drink.strDrink,
+                                                    strDrinkThumb = drink.strDrinkThumb,
+                                                };
+                                                if (drinkitem != null)
+                                                {
+                                                    <partial name="../Cocktails/CocktailViewPartial" model="drinkitem" />
+                                                }
+                                            }
                                         }
-                                    }
-                                }
+                                    </div>
+                                </div>
                             }
                             else
                             {
@@ -90,6 +122,7 @@
                         console.error("Error Removing recipe to favorites:", error);
                     }
                 });
+                location.reload();
             });
         });
     </script>

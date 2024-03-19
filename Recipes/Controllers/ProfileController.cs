@@ -20,7 +20,7 @@ namespace Recipes.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult Login(User user)
         {
-            _context.Login(user.Username);
+            _context.Login(user.Email, user.Password);
             return RedirectToAction("Index", "Home");
         }
 
@@ -52,7 +52,8 @@ namespace Recipes.Controllers
         [Route("Profile/AddFavorite")]
         public IActionResult AddFavorite(string id, string soort)
         {
-            var item = new Favorites() { RecipeId = Convert.ToInt32(id), Soort = soort , UserId = _context.GetUser().UserId};
+            if (_context.GetUser() == null) return RedirectToAction("Login");
+            var item = new Favorites() { recipeId = Convert.ToInt32(id), Soort = soort , UserId = _context.GetUser().UserId.ToString() };
             _context.AddFavoriteRecipe(item);
             return Ok();
         }
@@ -61,7 +62,7 @@ namespace Recipes.Controllers
         [Route("Profile/DelFavorite")]
         public IActionResult DelFavorite(string id, string soort)
         {
-            var item = new Favorites() { RecipeId = Convert.ToInt32(id), Soort = soort, UserId = _context.GetUser().UserId };
+            var item = new Favorites() { recipeId = Convert.ToInt32(id), Soort = soort, UserId = _context.GetUser().UserId.ToString() };
             _context.DelFavoriteRecipe(item);
             return RedirectToAction("Profile");
         }
