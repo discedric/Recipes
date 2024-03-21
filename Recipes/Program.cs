@@ -20,6 +20,20 @@ else
     using var scope = app.Services.CreateScope();
     var userDbContext = scope.ServiceProvider.GetRequiredService<UserDbContext>();
 }
+app.Use(async (context, next) =>
+{
+    var email = context.Request.Cookies["email"];
+    var password = context.Request.Cookies["password"];
+
+    if (!string.IsNullOrEmpty(email) && !string.IsNullOrEmpty(password))
+    {
+        using var scope = app.Services.CreateScope();
+        var userDbContext = scope.ServiceProvider.GetRequiredService<UserDbContext>();
+        userDbContext.Login(email, password);
+    }
+
+    await next.Invoke();
+});
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();

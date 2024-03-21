@@ -11,6 +11,7 @@ namespace Recipes.Models
         [Required]
         public string Email { get; set; }
         public string Password { get; set; }
+        public bool RememberMe { get; set; }
         public IList<Favorites>? Favorites { get; set; }
     }
 
@@ -55,3 +56,4 @@ namespace Recipes.Models
         public int recipeId { get; set; }
     }
 }
+

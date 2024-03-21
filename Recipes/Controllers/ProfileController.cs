@@ -22,8 +22,20 @@ namespace Recipes.Controllers
         public IActionResult Login(User user)
         {
             _context.Login(user.Email, user.Password);
+            if (user.RememberMe)
+            {
+                var cookieOptions = new CookieOptions
+                {
+                    Expires = DateTime.Now.AddDays(399),
+                    IsEssential = true
+                };
+
+                Response.Cookies.Append("email", user.Email, cookieOptions);
+                Response.Cookies.Append("password", user.Password, cookieOptions);
+            }
             return RedirectToAction("Index", "Home");
         }
+
 
         [HttpGet]
         public IActionResult Register()
