@@ -40,46 +40,78 @@
                         <div style="display:flex;flex-direction:column;flex-wrap:wrap;justify-content: center;">
                             @if(Model.Favorites != null){
                                 <h2 class="text-center">Favorieten</h2>
-                                <div class="text-center d-flex justify-content-between">
+                                <div class="text-center d-flex justify-content-around">
                                     <div class="w-auto ">
                                         <h2>Meals</h2>
-                                        @if(FMeals != null)
-                                        {
-                                            @foreach (var meal in FMeals)
+                                        <table class="table">
+                                            <thead>
+                                                <tr>
+                                                    <th scope="col">img</th>
+                                                    <th scope="col">name</th>
+                                                    <th scope="col">Fav</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                            @if(FMeals != null)
                                             {
-                                                var jmeal = await new ApiMeals().GetMealById(new(), meal.recipeId.ToString());
-                                                var mealitem = new MealItem()
+                                                @foreach (var meal in FMeals)
                                                 {
-                                                    idMeal = jmeal.idMeal,
-                                                    strMeal = jmeal.strMeal,
-                                                    strMealThumb = jmeal.strMealThumb,
-                                                };
-                                                if (mealitem != null)
-                                                {
-                                                    <partial name="../Meals/MealViewPartial" model="mealitem" />
+                                                    var jmeal = await new ApiMeals().GetMealById(new(), meal.recipeId.ToString());
+                                                    var mealitem = new MealItem()
+                                                    {
+                                                        idMeal = jmeal.idMeal,
+                                                        strMeal = jmeal.strMeal,
+                                                        strMealThumb = jmeal.strMealThumb,
+                                                    };
+                                                    if (mealitem != null)
+                                                    {
+                                                        //<partial name="../Meals/MealViewPartial" model="mealitem" />
+                                                        <tr>
+                                                            <td scope="row"><img src="@mealitem.strMealThumb" width="50" /></td>
+                                                            <td><a asp-action="MealRecipe" asp-controller="Meals" asp-route-id="@mealitem.idMeal">@mealitem.strMeal</a></td>
+                                                            <td><a id="favoriteButton" data-id="@mealitem.idMeal" data-soort="meal" class="btn btn-outline-warning favorite-button mt-auto">Favorite</a></td>
+                                                        </tr>
+                                                    }
                                                 }
                                             }
-                                        }
+                                            </tbody>
+                                        </table>
                                     </div>
                                     <div class ="w-auto">
                                         <h2>Drinks</h2>
-                                        @if(FCocktails != null)
-                                        {
-                                            @foreach (var cocktail in FCocktails)
+                                        <table class="table">
+                                            <thead>
+                                                <tr>
+                                                    <th scope="col">img</th>
+                                                    <th scope="col">name</th>
+                                                    <th scope="col">Fav</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                            @if(FCocktails != null)
                                             {
-                                                var drink = await new ApiCocktails().GetCocktailById(new(), cocktail.recipeId.ToString());
-                                                var drinkitem = new CocktailItem()
+                                                @foreach (var cocktail in FCocktails)
                                                 {
-                                                    idDrink = drink.idDrink,
-                                                    strDrink = drink.strDrink,
-                                                    strDrinkThumb = drink.strDrinkThumb,
-                                                };
-                                                if (drinkitem != null)
-                                                {
-                                                    <partial name="../Cocktails/CocktailViewPartial" model="drinkitem" />
+                                                    var drink = await new ApiCocktails().GetCocktailById(new(), cocktail.recipeId.ToString());
+                                                    var drinkitem = new CocktailItem()
+                                                    {
+                                                        idDrink = drink.idDrink,
+                                                        strDrink = drink.strDrink,
+                                                        strDrinkThumb = drink.strDrinkThumb,
+                                                    };
+                                                    if (drinkitem != null)
+                                                    {
+                                                        //<partial name="../Cocktails/CocktailViewPartial" model="drinkitem" />
+                                                        <tr>
+                                                            <td scope="row"><img src="@drinkitem.strDrinkThumb" width="50" /></td>
+                                                            <td><a asp-action="CocktailRecipe" asp-controller="Cocktails" asp-route-id="@drinkitem.idDrink">@drinkitem.strDrink</a></td>
+                                                            <td><a id="favoriteButton" data-id="@drinkitem.idDrink" data-soort="cocktail" class="btn btn-outline-warning favorite-button mt-auto">Favorite</a></td>
+                                                        </tr>
+                                                    }
                                                 }
                                             }
-                                        }
+                                            </tbody>
+                                        </table>
                                     </div>
                                 </div>
                             }
