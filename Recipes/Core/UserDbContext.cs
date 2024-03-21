@@ -3,6 +3,8 @@ using System.Xml.Linq;
 using MongoDB.Driver;
 using MongoDB.Bson;
 using System.Text;
+using System.Text.Json;
+
 
 namespace Recipes.Core
 {
@@ -13,7 +15,9 @@ namespace Recipes.Core
 
         public UserDbContext()
         {
-            const string connectionUri = "mongodb+srv://matheoD:Fackschool@cluster0.zek7qbd.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0";
+            var json = JsonDocument.Parse(File.ReadAllText("settings.json"));
+            string connectionUri = json.RootElement.GetProperty("ConnectionString").GetString();
+
             var settings = MongoClientSettings.FromConnectionString(connectionUri);
             settings.ServerApi = new ServerApi(ServerApiVersion.V1);
             var client = new MongoClient(settings);
