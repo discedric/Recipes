@@ -16,7 +16,7 @@
 
   <ItemGroup>
     <Content Update="settings.json">
-      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
 
