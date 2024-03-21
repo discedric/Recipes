@@ -1,9 +1,10 @@
 ﻿using MongoDB.Bson;
 using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
 
 namespace Recipes.Models
 {
-    public class User
+    public class CUser
     {
         public string UserId { get; set; }
         [Required]
@@ -15,6 +16,8 @@ namespace Recipes.Models
         public IList<Favorites>? Favorites { get; set; }
     }
 
+
+    [Serializable]
     public class DUser
     {
         public ObjectId _id { get; set; }

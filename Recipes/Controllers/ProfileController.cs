@@ -2,14 +2,20 @@
 using Recipes.Models;
 using Recipes.Core;
 using System.Text;
+using System.Web;
+using System.Security.Claims;
 
 namespace Recipes.Controllers
 {
     public class ProfileController : Controller
     {
         public readonly UserDbContext _context;
-        public ProfileController(UserDbContext context) { 
+        string userId;
+
+        public ProfileController(UserDbContext context)
+        {
             _context = context;
+            
         }
 
         [HttpGet]
@@ -19,9 +25,13 @@ namespace Recipes.Controllers
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Login(User user)
+        public IActionResult Login(CUser user)
         {
-            _context.Login(user.Email, user.Password);
+            userId = Request.Cookies["userId"];
+            var duser = _context.Login(user.Email, user.Password);
+            if (duser == null) return RedirectToAction("Login");
+            Response.Cookies.Append("userId", duser._id.ToString());
+            userId = duser._id.ToString();
             if (user.RememberMe)
             {
                 var cookieOptions = new CookieOptions
@@ -45,29 +55,37 @@ namespace Recipes.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Register(User user)
+        public IActionResult Register(CUser user)
         {
+            userId = Request.Cookies["userId"];
             _context.Register(user);
+            Response.Cookies.Append("userId", user.UserId);
+            userId = user.UserId;
             return RedirectToAction("Index", "Home");
         }
         [HttpGet]
         public IActionResult Logout()
         {
-            _context.Logout();
+            Response.Cookies.Delete("userId");
+            userId = null;
             return RedirectToAction("Index", "Home");
         }
         [HttpGet]
         public IActionResult Profile()
         {
-            return View(_context.GetUser());
+            userId = Request.Cookies["userId"];
+            var user = _context.GetUser(userId);
+            user.Favorites = _context.GetFavorites(user);
+            return View(user);
         }
         [HttpGet]
         public ActionResult Settings()
         {
+            userId = Request.Cookies["userId"];
             UserSettings us = new()
             {
-                Username = _context.LoggedIn.Username,
-                Email = _context.LoggedIn.Email
+                Username = _context.GetUser(userId).Username,
+                Email = _context.GetUser(userId).Email
             };
             return View(us);
         }
@@ -76,9 +94,10 @@ namespace Recipes.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult Settings([FromForm]UserSettings us)
         {
-            if(ModelState.IsValid)
+            userId = Request.Cookies["userId"];
+            if (ModelState.IsValid)
             {
-                var current = _context.LoggedIn;
+                var current = _context.GetUser(userId);
                 current.Username = us.Username;
                 current.Email = us.Email;
                 _context.updateUser(current);
@@ -97,9 +116,10 @@ namespace Recipes.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult ChangePassword(ChangePassword model)
         {
+            userId = Request.Cookies["userId"];
             if (ModelState.IsValid)
             {
-                var current = _context.LoggedIn;
+                var current = _context.GetUser(userId);
                 current.Password = model.NewPassword;
                 _context.updateUser(current);
                 return RedirectToAction("Settings");
@@ -111,9 +131,10 @@ namespace Recipes.Controllers
         [Route("Profile/AddFavorite")]
         public IActionResult AddFavorite(string id, string soort)
         {
-            if (_context.GetUser() == null) return RedirectToAction("Login");
-            var item = new Favorites() { recipeId = Convert.ToInt32(id), Soort = soort , UserId = _context.GetUser().UserId.ToString() };
-            _context.AddFavoriteRecipe(item);
+            userId = Request.Cookies["userId"];
+            if (_context.GetUser(userId) == null) return RedirectToAction("Login");
+            var item = new Favorites() { recipeId = Convert.ToInt32(id), Soort = soort , UserId = userId };
+            _context.AddFavoriteRecipe(item, _context.GetUser(userId));
             return Ok();
         }
 
@@ -121,8 +142,9 @@ namespace Recipes.Controllers
         [Route("Profile/DelFavorite")]
         public IActionResult DelFavorite(string id, string soort)
         {
-            var item = new Favorites() { recipeId = Convert.ToInt32(id), Soort = soort, UserId = _context.GetUser().UserId.ToString() };
-            _context.DelFavoriteRecipe(item);
+            userId = Request.Cookies["userId"];
+            var item = new Favorites() { recipeId = Convert.ToInt32(id), Soort = soort, UserId = userId };
+            _context.DelFavoriteRecipe(item, _context.GetUser(userId));
             return RedirectToAction("Profile");
         }
     }

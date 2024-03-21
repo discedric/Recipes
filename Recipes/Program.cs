@@ -1,10 +1,19 @@
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 using Recipes.Core;
 
 var builder = WebApplication.CreateBuilder(args);
 
+
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+
 builder.Services.AddSingleton<UserDbContext>();
+
+builder.Services.AddDistributedMemoryCache();
 
 var app = builder.Build();
 
@@ -34,6 +43,8 @@ app.Use(async (context, next) =>
 
     await next.Invoke();
 });
+
+
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();
