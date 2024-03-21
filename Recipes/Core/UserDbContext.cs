@@ -2,6 +2,7 @@
 using System.Xml.Linq;
 using MongoDB.Driver;
 using MongoDB.Bson;
+using System.Text;
 
 namespace Recipes.Core
 {
@@ -33,14 +34,15 @@ namespace Recipes.Core
         {
             // Add user to database
             var collection = database.GetCollection<DUser>("users");
-            DUser dUser = new DUser() { username = user.Username, email = user.Email, password = user.Password };
+            DUser dUser = new DUser() { username = user.Username, email = user.Email, password = Encoding.ASCII.GetBytes(user.Password) };
             collection.InsertOne(dUser);
             Console.WriteLine("User added to database");
             LoggedIn = user;
         }
-        public void Login(string mail, string password)
+        public void Login(string mail, string pass)
         {
             // Get user from database
+            var password = Encoding.ASCII.GetBytes(pass);
             var collection = database.GetCollection<DUser>("users");
             var filter = Builders<DUser>.Filter.Eq(u => u.email, mail) & Builders<DUser>.Filter.Eq(u => u.password, password);
             var user = collection.Find(filter).FirstOrDefault();
@@ -51,14 +53,22 @@ namespace Recipes.Core
             }
             Console.WriteLine("User found in database");
 
-            LoggedIn = new User() { UserId = user._id.ToString(), Username = user.username, Email = user.email };
+            LoggedIn = new User() { UserId = user._id.ToString(), Username = user.username, Email = user.email, Password = pass};
             
             LoggedIn.Favorites = GetFavorites();
         }
 
         public void updateUser(User user)
         {
-            // Update user in database
+            var collection = database.GetCollection<DUser>("users");
+            ObjectId.TryParse(user.UserId, out var id);
+            var filter = Builders<DUser>.Filter.Eq(u => u._id, id);
+            var update = Builders<DUser>.Update
+                .Set(u => u._id , id)
+                .Set(u => u.username, user.Username)
+                .Set(u => u.email, user.Email)
+                .Set(u => u.password, Encoding.ASCII.GetBytes(user.Password));
+            collection.UpdateOne(filter, update);// Update user in database
             LoggedIn = user;
         }
 

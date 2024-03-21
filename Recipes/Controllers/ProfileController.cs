@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Recipes.Models;
 using Recipes.Core;
+using System.Text;
 
 namespace Recipes.Controllers
 {
@@ -48,6 +49,52 @@ namespace Recipes.Controllers
         {
             return View(_context.GetUser());
         }
+        [HttpGet]
+        public ActionResult Settings()
+        {
+            UserSettings us = new()
+            {
+                Username = _context.LoggedIn.Username,
+                Email = _context.LoggedIn.Email
+            };
+            return View(us);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult Settings([FromForm]UserSettings us)
+        {
+            if(ModelState.IsValid)
+            {
+                var current = _context.LoggedIn;
+                current.Username = us.Username;
+                current.Email = us.Email;
+                _context.updateUser(current);
+                return RedirectToAction("Index", "Home");
+            }
+            return View(us);
+        }
+        [HttpGet]
+        public IActionResult ChangePasswordPopup()
+        {
+            var model = new ChangePassword();
+            return PartialView("ChangePasswordPopup",model);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult ChangePassword(ChangePassword model)
+        {
+            if (ModelState.IsValid)
+            {
+                var current = _context.LoggedIn;
+                current.Password = model.NewPassword;
+                _context.updateUser(current);
+                return RedirectToAction("Settings");
+            }
+            return PartialView("_ChangePasswordPopup", model);
+        }
+
         [HttpPost]
         [Route("Profile/AddFavorite")]
         public IActionResult AddFavorite(string id, string soort)
