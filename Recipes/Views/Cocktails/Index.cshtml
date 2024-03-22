@@ -8,12 +8,12 @@
     <h1 class="display-4">@ViewBag.title</h1>
     <form class="container-fluid" method="post" asp-action="SearchDrinks">
         <div class="input-group">
-            <input type="text" class="form-control" placeholder="Meal Name" name="name" aria-label="Meal name" aria-describedby="basic-addon1">
+            <input type="text" class="form-control" placeholder="Drink Name" name="name" aria-label="Drink name" aria-describedby="basic-addon1">
             <button class="btn btn-primary" type="submit">Search</button>
         </div>
     </form>
     <partial name="CategoryViewPartial" />
-    <h2>Random Meals</h2>
+    <h2>Random Drinks</h2>
     <div style="display:flex;flex-wrap:wrap;justify-content: center;">
         @if (Model != null)
         {
