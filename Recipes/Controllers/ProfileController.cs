@@ -58,8 +58,8 @@ namespace Recipes.Controllers
         public IActionResult Register(CUser user)
         {
             userId = Request.Cookies["userId"];
-            _context.Register(user);
-            Response.Cookies.Append("userId", user.UserId);
+            DUser duser = _context.Register(user);
+            Response.Cookies.Append("userId", duser._id.ToString());
             userId = user.UserId;
             return RedirectToAction("Index", "Home");
         }
