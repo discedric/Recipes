@@ -28,6 +28,7 @@ namespace Recipes.Controllers
         public IActionResult Login(CUser user)
         {
             userId = Request.Cookies["userId"];
+            user.Email = user.Email.ToLower();
             var duser = _context.Login(user.Email, user.Password);
             if (duser == null) return RedirectToAction("Login");
             Response.Cookies.Append("userId", duser._id.ToString());
@@ -58,6 +59,7 @@ namespace Recipes.Controllers
         public IActionResult Register(CUser user)
         {
             userId = Request.Cookies["userId"];
+            user.Email = user.Email.ToLower();
             _context.Register(user);
             Response.Cookies.Append("userId", user.UserId);
             userId = user.UserId;
