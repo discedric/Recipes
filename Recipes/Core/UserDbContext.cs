@@ -40,7 +40,7 @@ namespace Recipes.Core
             }
         }
 
-        public void Register(CUser user)
+        public DUser Register(CUser user)
         {
             // Add user to database
             var collection = database.GetCollection<DUser>("users");
@@ -49,6 +49,7 @@ namespace Recipes.Core
             var filter = Builders<DUser>.Filter.Eq(u => u.email, user.Email) & Builders<DUser>.Filter.Eq(u => u.password, Encoding.ASCII.GetBytes(user.Password));
             var duser = collection.Find(filter).FirstOrDefault();
             Console.WriteLine("User added to database");
+            return duser;
             //LoggedIn = user;
         }
         public DUser Login(string mail, string pass)

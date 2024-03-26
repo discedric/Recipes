@@ -60,8 +60,8 @@ namespace Recipes.Controllers
         {
             userId = Request.Cookies["userId"];
             user.Email = user.Email.ToLower();
-            _context.Register(user);
-            Response.Cookies.Append("userId", user.UserId);
+            DUser duser = _context.Register(user);
+            Response.Cookies.Append("userId", duser._id.ToString());
             userId = user.UserId;
             return RedirectToAction("Index", "Home");
         }
